@@ -1,13 +1,11 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using MeyasonFanClub.Command;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using Newtonsoft.Json.Linq;
 
 namespace MeyasonFanClub {
     class MeyasonFanClub {
@@ -48,19 +46,32 @@ namespace MeyasonFanClub {
                 await message.Channel.SendMessageAsync("俺の女はスピニーだ");
             }
 
+            if (CommandContext == "ハマチ" || CommandContext == "はまち") {
+                await message.Channel.SendMessageAsync("中トロ");
+            }
+
+            if (CommandContext == "甘えびロール" || CommandContext == "甘海老ロール" || CommandContext == "あまえびろーる") {
+                await message.Channel.SendMessageAsync("サーモン");
+            }
+
+            if (CommandContext == "ハンバーグ" || CommandContext == "はんばーぐ") {
+                await message.Channel.SendMessageAsync("いなり");
+            }
+
+            if (CommandContext == "サラダ" || CommandContext == "さらだ") {
+                await message.Channel.SendMessageAsync("サーモン炙り");
+            }
+
+            if (CommandContext == "パフェ" || CommandContext == "ぱふぇ") {
+                await message.Channel.SendMessageAsync("いわし");
+            }
+
+            if (CommandContext == "meyason eroge") {
+                await message.Channel.SendMessageAsync("めやそんおすすめのエロゲはR6Sです！！");
+            }
+
             if (CommandContext == "meyason stats") {
-                var httpClient = new HttpClient();
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token.R6SToken);
-                var genericResult = httpClient.GetAsync("https://api2.r6stats.com/public-api/stats/Apeiria.Network/pc/generic").Result.Content.ReadAsStringAsync().Result;
-                var seasonResult = httpClient.GetAsync("https://api2.r6stats.com/public-api/stats/Apeiria.Network/pc/seasonal").Result.Content.ReadAsStringAsync().Result;
-
-                var genericJson = JObject.Parse(genericResult);
-                var seasonJson = JObject.Parse(seasonResult);
-
-                var level = genericJson["progression"]["level"];
-                var kd = genericJson["stats"]["queue"]["casual"]["kd"];
-                var rank = seasonJson["seasons"]["crimson_heist"]["regions"]["ncsa"][0]["max_rank_text"];
-                await message.Channel.SendMessageAsync("おいらめやそん Lv"+level+"！\nシージのキルレは"+kd+"\n最高ランクは"+rank+ "だぞ！");
+                new statsCommand(message,_token).Execute();
             }
         }
 

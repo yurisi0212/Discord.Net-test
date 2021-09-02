@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace MeyasonFanClub {
-    class Main {
+    class MeyasonFanClub {
         static void Main(string[] args) {
             Console.WriteLine("Hello World!");
         }

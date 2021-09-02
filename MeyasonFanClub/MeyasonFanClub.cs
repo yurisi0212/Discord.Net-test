@@ -42,7 +42,7 @@ namespace MeyasonFanClub {
             var context = new CommandContext(_client, message);
             var CommandContext = message.Content;
 
-            if (CommandContext == "meyason") {
+            if (CommandContext == "meyason" || CommandContext == "めやそん" || CommandContext == "めやちょん") {
                 await message.Channel.SendMessageAsync("俺の女はスピニーだ");
             }
 
@@ -72,6 +72,10 @@ namespace MeyasonFanClub {
 
             if (CommandContext == "meyason stats") {
                 new statsCommand(message,_token).Execute();
+            }
+
+            if(CommandContext == "meyason make fanclub") {
+                await message.Channel.SendMessageAsync("https://github.com/yurisi0212/Discord.Net-test");
             }
         }
 

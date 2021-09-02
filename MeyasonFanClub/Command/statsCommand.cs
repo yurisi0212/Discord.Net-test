@@ -28,9 +28,6 @@ namespace MeyasonFanClub.Command {
             var genericJson = JObject.Parse(genericResult);
             var seasonJson = JObject.Parse(seasonResult);
 
-            Console.WriteLine(genericJson);
-            Console.WriteLine(seasonJson);
-
             if (genericJson["error"] != null) {
                 await _message.Channel.SendMessageAsync("むり");
                 return;
@@ -56,16 +53,16 @@ namespace MeyasonFanClub.Command {
             embed.WithThumbnailUrl(image.ToString());
             embed.AddField("PlayerLevel", level, true);
             embed.AddField("最高ランク", rank, true);
-            embed.AddField("\u200b", "\u200b");
+            embed.AddField("\u200b", "\u200b", true);
             embed.AddField("K/D", kd, true);
             embed.AddField("W/L", wl, true);
-            embed.AddField("\u200b", "\u200b");
+            embed.AddField("\u200b", "\u200b", true);
             embed.AddField("キル", kill, true);
             embed.AddField("デス", death, true);
             embed.AddField("アシスト", assist, true);
-            embed.AddField("\u200b", "\u200b");
             embed.AddField("win", win, true);
             embed.AddField("lose", lose, true);
+            embed.AddField("\u200b", "\u200b", true);
             embed.WithTimestamp(DateTime.Now);
             await _message.Channel.SendMessageAsync(embed: embed.Build());
         }

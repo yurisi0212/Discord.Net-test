@@ -5,6 +5,9 @@ using System;
 using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using Newtonsoft.Json.Linq;
 
 namespace MeyasonFanClub {
     class MeyasonFanClub {
@@ -28,7 +31,7 @@ namespace MeyasonFanClub {
             _client.MessageReceived += CommandRecieved;
             _token = new TokenManager();
             await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), _services);
-            await _client.LoginAsync(TokenType.Bot, _token.Token);
+            await _client.LoginAsync(TokenType.Bot, _token.DiscordToken);
             await _client.StartAsync();
             await Task.Delay(-1);
         }
@@ -42,7 +45,22 @@ namespace MeyasonFanClub {
             var CommandContext = message.Content;
 
             if (CommandContext == "meyason") {
-                await message.Channel.SendMessageAsync("R6S！？！？");
+                await message.Channel.SendMessageAsync("俺の女はスピニーだ");
+            }
+
+            if (CommandContext == "meyason stats") {
+                var httpClient = new HttpClient();
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token.R6SToken);
+                var genericResult = httpClient.GetAsync("https://api2.r6stats.com/public-api/stats/Apeiria.Network/pc/generic").Result.Content.ReadAsStringAsync().Result;
+                var seasonResult = httpClient.GetAsync("https://api2.r6stats.com/public-api/stats/Apeiria.Network/pc/seasonal").Result.Content.ReadAsStringAsync().Result;
+
+                var genericJson = JObject.Parse(genericResult);
+                var seasonJson = JObject.Parse(seasonResult);
+
+                var level = genericJson["progression"]["level"];
+                var kd = genericJson["stats"]["queue"]["casual"]["kd"];
+                var rank = seasonJson["seasons"]["crimson_heist"]["regions"]["ncsa"][0]["max_rank_text"];
+                await message.Channel.SendMessageAsync("おいらめやそん Lv"+level+"！\nシージのキルレは"+kd+"\n最高ランクは"+rank+ "だぞ！");
             }
         }
 

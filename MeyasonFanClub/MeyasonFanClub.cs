@@ -35,13 +35,10 @@ namespace MeyasonFanClub {
 
         private async Task CommandRecieved(SocketMessage messageParam) {
             var message = messageParam as SocketUserMessage;
-
             if (message == null) return;
-
             if (message.Author.IsBot) return;
 
             var context = new CommandContext(_client, message);
-
             var CommandContext = message.Content;
 
             if (CommandContext == "meyason") {
